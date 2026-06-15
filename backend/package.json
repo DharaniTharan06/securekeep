@@ -1,0 +1,39 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend logic for password manager",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "typescript",
+    "backend"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DharaniTharan06/securekeep.git"
+  },
+  "author": "Dharani",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DharaniTharan06/securekeep/issues"
+  },
+  "homepage": "https://github.com/DharaniTharan06/securekeep#readme",
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.9.3",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
+}
