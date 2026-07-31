@@ -10,7 +10,6 @@ import { ApiError } from "../utils/apiError.js"
 import asyncHandler from "../utils/asyncHandler.js"
 import { ApiResponse } from "../utils/apiResponse.js";
 import { SESSION_COOKIE_NAME, sessionCookieOptions } from "../utils/cookieOptions.js";
-import { boolean } from "drizzle-orm/gel-core";
 
 const oauth_state_name = "oauth_state"
 
@@ -113,9 +112,6 @@ const handleGoogleOAuthCallback = asyncHandler(async (req, res) => {
         const sessiontoken = hashToken(sessionrawtoken)
 
         const expiryms = ms(process.env.SESSION_EXPIRY as StringValue)
-        if (!expiryms) {
-            throw new ApiError(500,"Invalid session expiry")
-        }
 
         const insertedSession = await tx
             .insert(sessions)
