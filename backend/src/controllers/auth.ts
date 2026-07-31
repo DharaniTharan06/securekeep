@@ -25,9 +25,7 @@ const startGoogleOAuth = asyncHandler(async (req, res) => {
     
     const scopes = ["openid","email","profile"]
 
-    const state = generateToken()
-    
-    res.cookie(oauth_state_name, state, oauthStateCookieOptions)    
+    const state = generateToken() 
 
     const authorizationurl = oauthClient.generateAuthUrl({
         scope: scopes,
@@ -35,7 +33,9 @@ const startGoogleOAuth = asyncHandler(async (req, res) => {
         state
     })
 
-    return res.redirect( authorizationurl )
+    return res
+    .cookie(oauth_state_name, state, oauthStateCookieOptions) 
+    .redirect( authorizationurl )
 })
 
 const handleGoogleOAuthCallback = asyncHandler(async (req, res) => {
@@ -137,11 +137,10 @@ const handleGoogleOAuthCallback = asyncHandler(async (req, res) => {
         name: user.name,
         avatarUrl: user.avatarUrl
     }
-    
-    res.cookie(SESSION_COOKIE_NAME,sessionrawtoken,sessionCookieOptions)
 
     return res
     .status(200)
+    .cookie(SESSION_COOKIE_NAME,sessionrawtoken,sessionCookieOptions)
     .json(new ApiResponse(
         200,
         {
