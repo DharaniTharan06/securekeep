@@ -9,8 +9,7 @@ export const users = pgTable(
     avatarUrl: text("avatar_url"),
     oauthProvider: text("oauth_provider").notNull(),
     oauthId: text("oauth_id").notNull(),
-    passphraseKeyEnvelope: jsonb("passphrase_key_envelope"),
-    recoveryKeyEnvelope: jsonb("recovery_key_envelope"),
+    vaultKeyEnvelope: jsonb("vault_key_envelope"),
     cryptoVersion: integer("crypto_version").default(1).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()

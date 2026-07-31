@@ -4,6 +4,13 @@ import cookiesParser from "cookie-parser"
 import { sql } from "drizzle-orm"
 import { db } from "./db/indexdb.js"
 import { API_PREFIX } from "./constants.js"
+import authRouter from "./routes/auth.js"
+import credentialRouter from "./routes/credential.js"
+import healthcheckRouter from "./routes/healthcheck.js"
+import sessionRouter from "./routes/session.js"
+import userRouter from "./routes/user.js"
+import vaultRouter from "./routes/vault.js"
+import { errorHandler } from "./middleware/errorHandler.js"
 
 const app = express()
 
@@ -22,6 +29,13 @@ app.use(express.urlencoded({
 }))
 app.use(cookiesParser())
 
+app.use(`${API_PREFIX}/healthcheck`, healthcheckRouter)
+app.use(`${API_PREFIX}/auth`, authRouter)
+app.use(`${API_PREFIX}/vault`, vaultRouter)
+app.use(`${API_PREFIX}/credentials`, credentialRouter)
+app.use(`${API_PREFIX}/sessions`, sessionRouter)
+app.use(`${API_PREFIX}/users`, userRouter)
 
+app.use(errorHandler)
 
 export { app }
