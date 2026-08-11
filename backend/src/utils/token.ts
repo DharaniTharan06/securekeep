@@ -1,18 +1,22 @@
-import { randomBytes, createHash } from 'node:crypto'
+import { createHash, randomBytes, timingSafeEqual } from "node:crypto"
 
 const generateToken = (byteLength = 32): string => {
-
-    const rawToken = randomBytes(byteLength).toString('base64url')
-    return rawToken
+    return randomBytes(byteLength).toString("base64url")
 }
 
 const hashToken = (token: string): string => {
-    
-    const hash = createHash('sha256')
-    .update(token)
-    .digest('hex')
-
-    return hash
+    return createHash("sha256").update(token).digest("hex")
 }
 
-export { generateToken, hashToken }
+const constantTimeEqual = (firstValue: string, secondValue: string): boolean => {
+    const firstBuffer = Buffer.from(firstValue)
+    const secondBuffer = Buffer.from(secondValue)
+
+    if (firstBuffer.length !== secondBuffer.length) {
+        return false
+    }
+
+    return timingSafeEqual(firstBuffer, secondBuffer)
+}
+
+export { constantTimeEqual, generateToken, hashToken }

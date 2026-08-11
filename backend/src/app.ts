@@ -1,8 +1,6 @@
 import express from "express"
 import cors from "cors"
 import cookiesParser from "cookie-parser"
-import { sql } from "drizzle-orm"
-import { db } from "./db/indexdb.js"
 import { API_PREFIX } from "./constants.js"
 import authRouter from "./routes/auth.js"
 import credentialRouter from "./routes/credential.js"
@@ -11,8 +9,11 @@ import sessionRouter from "./routes/session.js"
 import userRouter from "./routes/user.js"
 import vaultRouter from "./routes/vault.js"
 import { errorHandler } from "./middleware/errorHandler.js"
+import { assertGoogleOAuthConfig } from "./lib/google.js"
 
 const app = express()
+
+assertGoogleOAuthConfig()
 
 app.use(cors({
     origin: process.env.CORS_ORIGIN,
