@@ -6,7 +6,6 @@ import authRouter from "./routes/auth.js"
 import credentialRouter from "./routes/credential.js"
 import healthcheckRouter from "./routes/healthcheck.js"
 import sessionRouter from "./routes/session.js"
-import userRouter from "./routes/user.js"
 import vaultRouter from "./routes/vault.js"
 import { errorHandler } from "./middleware/errorHandler.js"
 import { assertGoogleOAuthConfig } from "./lib/google.js"
@@ -35,7 +34,6 @@ app.use(`${API_PREFIX}/auth`, authRouter)
 app.use(`${API_PREFIX}/vault`, vaultRouter)
 app.use(`${API_PREFIX}/credentials`, credentialRouter)
 app.use(`${API_PREFIX}/sessions`, sessionRouter)
-app.use(`${API_PREFIX}/users`, userRouter)
 
 app.use(errorHandler)
 

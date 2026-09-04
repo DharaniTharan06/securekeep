@@ -33,6 +33,19 @@ const googleIdTokenPayloadSchema = z.object({
     picture: z.string().optional(),
 })
 
+const vaultEnvelopeSchema = z.record(z.string(), z.unknown()).refine(
+    (value) => Object.keys(value).length > 0,
+    "vaultKeyEnvelope cannot be empty"
+)
+
+const vaultEnvelopeBodySchema = z.object({
+    vaultKeyEnvelope: vaultEnvelopeSchema,
+})
+
+const sessionIdParamsSchema = z.object({
+    id: z.uuid("Session id must be a valid UUID"),
+})
+
 const requireBodyField = <TBody extends Record<string, unknown>>(
     body: TBody,
     field: keyof TBody
@@ -71,5 +84,13 @@ const requireRouteParam = (
     return value
 }
 
-export { googleIdTokenPayloadSchema, googleOAuthCallbackQuerySchema, googleOAuthStateCookieSchema, parseWithSchema, 
-    requireBodyField, requireRouteParam }
+export {
+    googleIdTokenPayloadSchema,
+    googleOAuthCallbackQuerySchema,
+    googleOAuthStateCookieSchema,
+    parseWithSchema,
+    requireBodyField,
+    requireRouteParam,
+    sessionIdParamsSchema,
+    vaultEnvelopeBodySchema,
+}
