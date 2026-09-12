@@ -1,10 +1,12 @@
 import { Router } from "express"
 import { getVaultEnvelope, getVaultStatus, setupVault, updateVaultEnvelope } from "../controllers/vault.js"
 import { verifySession } from "../middleware/auth.js"
+import { apiRateLimiter } from "../middleware/rate-limiter.js"
 
 const router = Router()
 
 router.use(verifySession)
+router.use(apiRateLimiter)
 
 /**
  * @openapi

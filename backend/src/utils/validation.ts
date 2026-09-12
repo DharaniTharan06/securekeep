@@ -46,6 +46,19 @@ const sessionIdParamsSchema = z.object({
     id: z.uuid("Session id must be a valid UUID"),
 })
 
+const vaultItemPayloadSchema = z.record(z.string(), z.unknown()).refine(
+    (value) => Object.keys(value).length > 0,
+    "encryptedPayload cannot be empty"
+)
+
+const vaultItemBodySchema = z.object({
+    encryptedPayload: vaultItemPayloadSchema,
+})
+
+const vaultItemIdParamsSchema = z.object({
+    id: z.uuid("Vault item id must be a valid UUID"),
+})
+
 const requireBodyField = <TBody extends Record<string, unknown>>(
     body: TBody,
     field: keyof TBody
@@ -93,4 +106,6 @@ export {
     requireRouteParam,
     sessionIdParamsSchema,
     vaultEnvelopeBodySchema,
+    vaultItemBodySchema,
+    vaultItemIdParamsSchema,
 }

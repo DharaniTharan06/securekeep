@@ -1,10 +1,12 @@
 import { Router } from "express"
 import { getSessions, revokeOtherSessions, revokeSession } from "../controllers/session.js"
 import { verifySession } from "../middleware/auth.js"
+import { apiRateLimiter } from "../middleware/rate-limiter.js"
 
 const router = Router()
 
 router.use(verifySession)
+router.use(apiRateLimiter)
 
 /**
  * @openapi

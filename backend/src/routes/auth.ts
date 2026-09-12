@@ -1,6 +1,7 @@
 import { Router } from "express"
 import { getCurrentUser, handleGoogleOAuthCallback, logout, logoutAll, startGoogleOAuth } from "../controllers/auth.js"
 import { verifySession } from "../middleware/auth.js"
+import { apiRateLimiter, authRateLimiter } from "../middleware/rate-limiter.js"
 
 const router = Router()
 
@@ -19,6 +20,7 @@ const router = Router()
  *         description: Google OAuth environment variables are not configured.
  */
 router.route("/google").get(
+    authRateLimiter,
     startGoogleOAuth
 )
 
@@ -50,6 +52,7 @@ router.route("/google").get(
  *         description: Google ID token verification failed.
  */
 router.route("/google/callback").get(
+    authRateLimiter,
     handleGoogleOAuthCallback
 )
 
@@ -68,7 +71,8 @@ router.route("/google/callback").get(
  *         description: Missing, expired, revoked, or invalid session.
  */
 router.route("/logout").post(
-    verifySession, 
+    verifySession,
+    apiRateLimiter, 
     logout
 )
 
@@ -88,6 +92,7 @@ router.route("/logout").post(
  */
 router.route("/logout-all").post(
     verifySession, 
+    apiRateLimiter,
     logoutAll
 )
 
@@ -107,6 +112,7 @@ router.route("/logout-all").post(
  */
 router.route("/me").get(
     verifySession,
+    apiRateLimiter,
     getCurrentUser
 )
 
