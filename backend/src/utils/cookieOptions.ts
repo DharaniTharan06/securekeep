@@ -7,11 +7,18 @@ const DEFAULT_SESSION_EXPIRY = "7d"
 const OAUTH_STATE_COOKIE_MAX_AGE_MS = 1000 * 60 * 10
 
 const getSessionMaxAge = (): number => {
-    const sessionExpiry = process.env.SESSION_EXPIRY || DEFAULT_SESSION_EXPIRY
-    const maxAge = ms(sessionExpiry as StringValue)
+    const sessionExpiry = process.env.SESSION_EXPIRY ?? DEFAULT_SESSION_EXPIRY
+    let maxAge: number | undefined
 
-    if (typeof maxAge !== "number") {
-        return ms(DEFAULT_SESSION_EXPIRY)
+    try {
+        maxAge = ms(sessionExpiry as StringValue)
+    } catch {
+        throw new Error("SESSION_EXPIRY must be a valid positive duration, for example 7d")
+    }
+
+    if (typeof maxAge !== "number" || !Number.isSafeInteger(maxAge) || maxAge <= 0
+        || !Number.isFinite(new Date(Date.now() + maxAge).getTime())) {
+        throw new Error("SESSION_EXPIRY must be a valid positive duration, for example 7d")
     }
 
     return maxAge

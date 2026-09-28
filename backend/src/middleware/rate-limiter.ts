@@ -71,4 +71,10 @@ const apiRateLimiter = createRateLimiter({
     message: "Too many requests. Please try again later.",
 })
 
-export { apiRateLimiter, authRateLimiter }
+const requestRateLimiter = createRateLimiter({
+    windowMs: 1000 * 60,
+    maxRequests: 300,
+    message: "Too many requests. Please try again later.",
+})
+
+export { apiRateLimiter, authRateLimiter, requestRateLimiter }
